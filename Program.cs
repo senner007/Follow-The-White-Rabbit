@@ -18,10 +18,12 @@ namespace ParseCSV
             // System.Console.WriteLine(  AsciiSumAnagram() );
 
             Stopwatch stopwatch = new Stopwatch();
-             stopwatch.Start();
+            stopwatch.Start();
 
             var words = ReadCSVFile<WordObject>("c:\\gits7\\wordlist");
             var wordsList = words.ToList();
+
+            stopwatch.Stop();
 
             var wordsListSorted = wordsList.OrderBy(o => o.AsciiSum);
 
@@ -35,8 +37,6 @@ namespace ParseCSV
                      dict.Add(ws.AsciiSum, new List<string>{ws.Word});
                  }
             }
-
-            stopwatch.Stop();
 
             // Write result.
             Console.WriteLine("Time after generating list excluding impossible: {0}", stopwatch.Elapsed);
