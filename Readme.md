@@ -1,4 +1,4 @@
-## Follow the Whitte Rabbit Code Challenge:
+## Follow the White Rabbit Code Challenge:
 
 ### Challenge:
 
