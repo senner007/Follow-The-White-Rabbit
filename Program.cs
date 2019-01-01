@@ -39,10 +39,10 @@ namespace ParseCSV
             stopwatch.Stop();
 
             // Write result.
-            Console.WriteLine("Time elapsed after generating list: {0}", stopwatch.Elapsed);
+            Console.WriteLine("Time after generating list excluding impossible: {0}", stopwatch.Elapsed);
 
 
-            System.Console.WriteLine(wordsList.Count);
+            System.Console.WriteLine("Length of list excluding impossible: " + wordsList.Count);
 
 
             List<WordObject> newListObject = new List<WordObject>();
@@ -89,12 +89,12 @@ namespace ParseCSV
             stopwatch.Stop();
 
             // Write result.
-            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
+            Console.WriteLine("Time after generating list with 2 words: {0}", stopwatch.Elapsed);
      
 
             var newList2 = new List<string>();
 
-            System.Console.WriteLine( newListObject.Count  );
+            System.Console.WriteLine( "Length of list with 2 words: {0}", newListObject.Count  );
 
             stopwatch.Start();
 
@@ -154,7 +154,7 @@ namespace ParseCSV
 
             Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);  
 
-            System.Console.WriteLine(  "words hashed: " + counter );
+            System.Console.WriteLine(  "final candidates hashed: " + counter );
 
 
         }
