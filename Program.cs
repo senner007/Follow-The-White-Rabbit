@@ -14,7 +14,7 @@ namespace ParseCSV
     {
         static void Main(string[] args)
         {
-            int asciisumanagram = AsciiSumAnagram();
+            
             // System.Console.WriteLine(  AsciiSumAnagram() );
 
             Stopwatch stopwatch = new Stopwatch();
@@ -23,75 +23,49 @@ namespace ParseCSV
             var words = ReadCSVFile<WordObject>("c:\\gits7\\wordlist");
             var wordsList = words.ToList();
 
-            stopwatch.Stop();
 
             Console.WriteLine("Time after generating list excluding impossible: {0}", stopwatch.Elapsed);
 
+            // Create first List
+            var firstList = CreateFirstList(wordsList);
 
-            stopwatch.Start();
-            // create Dictionary ( asciisum , words )
-            var dict = CreateDictionary.CreateDict(wordsList);
-
-            stopwatch.Stop();
-
-            Console.WriteLine("Time after generating dictionary (asciisum, words): {0}", stopwatch.Elapsed);
-
-            List<WordObject> newListObject = new List<WordObject>();
-            
-            stopwatch.Start();
-
-            foreach (var w in wordsList) {
-
-                foreach(var ww in wordsList) {
-
-                    if(w.Word.Length + ww.Word.Length < 7) continue;
-                    if(w.Word.Length + ww.Word.Length > 16) continue;
-
-                    if(w.HowManyS + ww.HowManyS > 2) continue;
-                    if(w.HowManyO + ww.HowManyO > 2) continue;
-                    if(w.HowManyU + ww.HowManyU > 2) continue;
-                    if(w.HowManyT + ww.HowManyT > 4) continue;
-
-                    if(w.Word.Contains('a') && ww.Word.Contains('a')) continue;
-                    if(w.Word.Contains('i') && ww.Word.Contains('i')) continue;
-                    if(w.Word.Contains('l') && ww.Word.Contains('l')) continue;
-                    if(w.Word.Contains('p') && ww.Word.Contains('p')) continue;
-                    if(w.Word.Contains('n') && ww.Word.Contains('n')) continue;
-                    if(w.Word.Contains('r') && ww.Word.Contains('r')) continue;
-                    if(w.Word.Contains('w') && ww.Word.Contains('w')) continue;
-                    if(w.Word.Contains('y') && ww.Word.Contains('y')) continue;
-
-                    
-
-                            newListObject.Add(new WordObject { 
-                                Word = w.Word  + " " + ww.Word, 
-                                HowManyS = w.HowManyS + ww.HowManyS,
-                                HowManyO =  w.HowManyO + ww.HowManyO,
-                                HowManyU =  w.HowManyU + ww.HowManyU,
-                                HowManyT = w.HowManyT + ww.HowManyT,
-                                AsciiSum = w.AsciiSum + ww.AsciiSum
-                                });
-          
-                    
-                }
-                
-            }
-                // Stop timing.
-            stopwatch.Stop();
-
-            // Write result.
             Console.WriteLine("Time after generating list with 2 words: {0}", stopwatch.Elapsed);
+
+            System.Console.WriteLine( "Length of list with 2 words: {0}", firstList.Count  );
      
 
-            var newList2 = new List<string>();
+            // Create final List
 
-            System.Console.WriteLine( "Length of list with 2 words: {0}", newListObject.Count  );
+            CreateLastList(firstList, wordsList);
 
-            stopwatch.Start();
+            stopwatch.Stop();
 
+            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);  
+
+        }
+
+        static int AsciiSumAnagram () 
+        {
+            var sum = 0;
+            var anagram = "poultryoutwitsants";
+
+            foreach ( var c in anagram) {
+                sum += (int)c;
+            }
+
+            return sum;
+        }
+
+        static void CreateLastList (List<WordObject> firstList, List<WordObject> initialList )
+        {
             var counter = 0;
 
-            foreach (var w in newListObject) {
+            int asciisumanagram = AsciiSumAnagram();
+            
+            // create Dictionary ( asciisum , words )
+            var dict = CreateDictionary.CreateDict(initialList);
+
+            foreach (var w in firstList) {
 
                 if (!dict.ContainsKey(asciisumanagram - w.AsciiSum)) continue;
 
@@ -119,7 +93,6 @@ namespace ParseCSV
                     // if (w.AsciiSum + ww.AsciiSum != asciisumanagram) continue;
                      counter++;  
                     
-                   
 
                     using (MD5 md5Hash = MD5.Create())
                     {
@@ -141,28 +114,49 @@ namespace ParseCSV
                 
             }
 
-            stopwatch.Stop();
-
-            Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);  
-
             System.Console.WriteLine(  "final candidates hashed: " + counter );
-
-
         }
 
-        static int AsciiSumAnagram () {
-            var sum = 0;
-            var anagram = "poultryoutwitsants";
+        static List<WordObject> CreateFirstList (List<WordObject> list)
+        {
+            List<WordObject> newListObject = new List<WordObject>();
 
-            foreach ( var c in anagram) {
-                sum += (int)c;
+            foreach (var w in list) {
+
+                foreach(var ww in list) {
+
+                    if(w.Word.Length + ww.Word.Length < 7) continue;
+                    if(w.Word.Length + ww.Word.Length > 16) continue;
+
+                    if(w.HowManyS + ww.HowManyS > 2) continue;
+                    if(w.HowManyO + ww.HowManyO > 2) continue;
+                    if(w.HowManyU + ww.HowManyU > 2) continue;
+                    if(w.HowManyT + ww.HowManyT > 4) continue;
+
+                    if(w.Word.Contains('a') && ww.Word.Contains('a')) continue;
+                    if(w.Word.Contains('i') && ww.Word.Contains('i')) continue;
+                    if(w.Word.Contains('l') && ww.Word.Contains('l')) continue;
+                    if(w.Word.Contains('p') && ww.Word.Contains('p')) continue;
+                    if(w.Word.Contains('n') && ww.Word.Contains('n')) continue;
+                    if(w.Word.Contains('r') && ww.Word.Contains('r')) continue;
+                    if(w.Word.Contains('w') && ww.Word.Contains('w')) continue;
+                    if(w.Word.Contains('y') && ww.Word.Contains('y')) continue;
+
+                    newListObject.Add(new WordObject { 
+                        Word = w.Word  + " " + ww.Word, 
+                        HowManyS = w.HowManyS + ww.HowManyS,
+                        HowManyO =  w.HowManyO + ww.HowManyO,
+                        HowManyU =  w.HowManyU + ww.HowManyU,
+                        HowManyT = w.HowManyT + ww.HowManyT,
+                        AsciiSum = w.AsciiSum + ww.AsciiSum
+                        });
+             
+                }
+                
             }
 
-            return sum;
-
+            return newListObject;
         }
-
-
         private static IEnumerable<WordObject> ReadCSVFile<T>(string path) where T : IWordObject, new()
         {    
             string anagram = "poultry outwits ants";
