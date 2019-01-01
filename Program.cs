@@ -25,25 +25,16 @@ namespace ParseCSV
 
             stopwatch.Stop();
 
-            var wordsListSorted = wordsList.OrderBy(o => o.AsciiSum);
-
-            IDictionary<int, List<string>> dict = new Dictionary<int,  List<string>>();
-
-            foreach ( var ws in wordsListSorted) {
-                
-                if (dict.ContainsKey(ws.AsciiSum)) { 
-                    dict[ws.AsciiSum].Add(ws.Word);
-                 } else {
-                     dict.Add(ws.AsciiSum, new List<string>{ws.Word});
-                 }
-            }
-
-            // Write result.
             Console.WriteLine("Time after generating list excluding impossible: {0}", stopwatch.Elapsed);
 
 
-            System.Console.WriteLine("Length of list excluding impossible: " + wordsList.Count);
+            stopwatch.Start();
+            // create Dictionary ( asciisum , words )
+            var dict = CreateDictionary.CreateDict(wordsList);
 
+            stopwatch.Stop();
+
+            Console.WriteLine("Time after generating dictionary (asciisum, words): {0}", stopwatch.Elapsed);
 
             List<WordObject> newListObject = new List<WordObject>();
             
