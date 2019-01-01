@@ -15,8 +15,8 @@ Here is a couple of important hints to help you out:
 - The MD5 hash of the easiest secret phrase is "e4820b45d2277f3844eac66c903e84be"
 - The MD5 hash of the more difficult secret phrase is "23170acc097c24edb98fc5488ab033fe"
 - The MD5 hash of the hard secret phrase is "665e5bcb0c20062fe8abaaf4628bb154"
-Here is a list of english words, it should help you out.
-Type the secret phrase here to see if you found the right one  
+- Here is a list of english words, it should help you out.
+  
 Trustpilot Development Team 
 We imagine that right now, you're feeling a bit like Alice. Hmm? Tumbling down the rabbit hole?
 
