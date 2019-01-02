@@ -26,8 +26,9 @@ namespace ParseCSV
 
             Console.WriteLine("Time after generating list excluding impossible: {0}", stopwatch.Elapsed);
 
+            var dict = CreateDictionary.CreateDict(wordsList);
             // Create first List
-            var firstList = CreateFirstList(wordsList);
+            var firstList = CreateFirstList(wordsList,dict);
 
             Console.WriteLine("Time after generating list with 2 words: {0}", stopwatch.Elapsed);
 
@@ -36,11 +37,13 @@ namespace ParseCSV
 
             // Create final List
 
-            CreateLastList(firstList, wordsList);
+            CreateLastList(firstList, wordsList,  dict);
 
             stopwatch.Stop();
 
             Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);  
+
+            Hard.Solution(wordsList);
 
         }
 
@@ -56,18 +59,17 @@ namespace ParseCSV
             return sum;
         }
 
-        static void CreateLastList (List<WordObject> firstList, List<WordObject> initialList )
+        static void CreateLastList (List<WordObject> firstList, List<WordObject> initialList, IDictionary<int, List<string>> dict )
         {
             var counter = 0;
 
             int asciisumanagram = AsciiSumAnagram();
             
             // create Dictionary ( asciisum , words )
-            var dict = CreateDictionary.CreateDict(initialList);
 
             foreach (var w in firstList) {
 
-                if (!dict.ContainsKey(asciisumanagram - w.AsciiSum)) continue;
+                // if (!dict.ContainsKey(asciisumanagram - w.AsciiSum)) continue;
 
                 foreach(var ww in dict[asciisumanagram - w.AsciiSum]) {
 
@@ -96,15 +98,16 @@ namespace ParseCSV
 
                     using (MD5 md5Hash = MD5.Create())
                     {
-                        string hash = Hashing.GetMd5Hash(md5Hash, w.Word + " " + ww);
+                        var completeWord = w.Word + " " + ww;
+                        string hash = Hashing.GetMd5Hash(md5Hash, completeWord);
 
 
                         if ("e4820b45d2277f3844eac66c903e84be" == hash) {
-                            System.Console.WriteLine("found easy string: " + w.Word + " " + ww + " with hash string: 'e4820b45d2277f3844eac66c903e84be'");
+                            System.Console.WriteLine("found easy string: " + completeWord + " with hash string: 'e4820b45d2277f3844eac66c903e84be'");
                         }
 
                         if ("23170acc097c24edb98fc5488ab033fe" == hash) {
-                            System.Console.WriteLine("found medium string: " + w.Word + " " + ww + " with hash string: '23170acc097c24edb98fc5488ab033fe'");
+                            System.Console.WriteLine("found medium string: " + completeWord + " with hash string: '23170acc097c24edb98fc5488ab033fe'");
                         }
 
                     }
@@ -117,13 +120,17 @@ namespace ParseCSV
             System.Console.WriteLine(  "final candidates hashed: " + counter );
         }
 
-        static List<WordObject> CreateFirstList (List<WordObject> list)
+        static List<WordObject> CreateFirstList (List<WordObject> list, IDictionary<int, List<string>> dict)
         {
             List<WordObject> newListObject = new List<WordObject>();
+
+             int asciisumanagram = AsciiSumAnagram();
 
             foreach (var w in list) {
 
                 foreach(var ww in list) {
+
+                    if (!dict.ContainsKey(asciisumanagram - (w.AsciiSum + ww.AsciiSum))) continue;
 
                     if(w.Word.Length + ww.Word.Length < 7) continue;
                     if(w.Word.Length + ww.Word.Length > 16) continue;
@@ -141,6 +148,8 @@ namespace ParseCSV
                     if(w.Word.Contains('r') && ww.Word.Contains('r')) continue;
                     if(w.Word.Contains('w') && ww.Word.Contains('w')) continue;
                     if(w.Word.Contains('y') && ww.Word.Contains('y')) continue;
+
+                     
 
                     newListObject.Add(new WordObject { 
                         Word = w.Word  + " " + ww.Word, 
