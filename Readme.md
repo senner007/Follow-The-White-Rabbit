@@ -21,8 +21,8 @@ Trustpilot Development Team.
 We imagine that right now, you're feeling a bit like Alice. Hmm? Tumbling down the rabbit hole?
 
 ### Done:
-- Solves easy and medium in about 1/2 sec
-- Solves hard in about 5 mins.
+- Solves easy and medium in about 1/2 sec. (I5-8250U 8GB)
+- Solves hard in about 5 mins. (I5-8250U 8GB)
 
 ### Todo: 
 - clean up code mess/redundancy
