@@ -22,7 +22,7 @@ We imagine that right now, you're feeling a bit like Alice. Hmm? Tumbling down t
 
 ### Done:
 - Solves easy and medium in about 1/2 sec
-- Solves hard in in about 5 mins.
+- Solves hard in about 5 mins.
 
 ### Todo: 
 - clean up code mess/redundancy
