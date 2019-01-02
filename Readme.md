@@ -21,9 +21,10 @@ Trustpilot Development Team.
 We imagine that right now, you're feeling a bit like Alice. Hmm? Tumbling down the rabbit hole?
 
 ### Done:
-Solves easy and medium in less than 1 sec
+Solves easy and medium in about 1/2 sec
+Solves hard in in about 5 mins.
 
 ### Todo: 
-- add 4 words solution
+- clean up code mess/redundancy
 - optimize using permutation logic
 - cudafy
